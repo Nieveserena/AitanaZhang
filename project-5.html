@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文案撰写 · 作品展示</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #FAFAF8;
+            --bg-card: #FFFFFF;
+            --text-primary: #2B2B2B;
+            --text-secondary: #6B6B6B;
+            --text-weak: #999999;
+            --accent: #C4A882;
+            --accent-light: #D4C9BE;
+            --accent-lighter: #E8E0D6;
+            --border: #EBE8E3;
+            --font-heading-en: 'Playfair Display', Georgia, serif;
+            --font-body-en: 'Inter', -apple-system, sans-serif;
+            --transition-default: 350ms cubic-bezier(0.25,0.1,0.25,1);
+            --transition-fast: 250ms cubic-bezier(0.25,0.1,0.25,1);
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family:var(--font-body-en);
+            background:var(--bg-page);
+            color:var(--text-primary);
+            line-height:1.6;
+            -webkit-font-smoothing:antialiased;
+        }
+        .navbar{
+            position:fixed;top:0;left:0;width:100%;height:64px;
+            display:flex;align-items:center;justify-content:space-between;
+            padding:0 40px;z-index:1000;
+            transition:background-color 350ms ease-out,box-shadow 350ms ease-out;
+            background:transparent;
+        }
+        .navbar.scrolled{
+            background:rgba(250,250,248,0.88)!important;
+            backdrop-filter:blur(16px);
+            box-shadow:0 1px 0 rgba(0,0,0,0.04);
+        }
+        .navbar-logo{font-size:18px;font-weight:500;color:var(--text-primary);text-decoration:none;}
+        .navbar-links{display:flex;gap:36px;list-style:none;}
+        .navbar-links a{font-size:14px;color:var(--text-primary);text-decoration:none;position:relative;}
+        .navbar-links a:hover{color:var(--accent);}
+        .navbar-links a.nav-item::after{
+            content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+            width:0;height:1.5px;background:var(--accent);transition:width var(--transition-fast);
+        }
+        .navbar-links a.nav-item:hover::after{width:60%;}
+        .nav-contact-btn{
+            background:var(--accent)!important;color:#fff!important;
+            padding:7px 20px;border-radius:20px;font-size:13px;font-weight:500;
+            animation:contactBreathe 3.5s ease-in-out infinite;
+        }
+        @keyframes contactBreathe{
+            0%,100%{box-shadow:0 0 0 rgba(196,168,130,0)}
+            50%{box-shadow:0 0 14px rgba(196,168,130,0.35)}
+        }
+
+        .detail-container{
+            max-width:750px;
+            margin:0 auto;
+            padding:120px 24px 80px;
+        }
+        .project-header{
+            text-align:center;
+            margin-bottom:48px;
+        }
+        .project-header h1{
+            font-family:var(--font-heading-en);
+            font-size:clamp(32px,5vw,42px);
+            font-weight:700;
+            color:var(--text-primary);
+        }
+        .project-header .tag{
+            display:inline-block;
+            background:rgba(212,201,190,0.35);
+            color:var(--accent);
+            font-size:12px;
+            padding:4px 16px;
+            border-radius:12px;
+            margin-top:12px;
+        }
+
+        .section{
+            margin-bottom:48px;
+            padding-left: 20px;
+            border-left: 2px solid var(--accent-light);
+        }
+        .section h2{
+            font-family:var(--font-heading-en);
+            font-size:20px;
+            font-weight:600;
+            color:var(--text-primary);
+            margin-bottom:20px;
+        }
+        .work-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+            gap:16px;
+        }
+        .work-card{
+            display:block;
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:10px;
+            padding:20px 18px;
+            text-decoration:none;
+            color:inherit;
+            cursor:pointer;
+            transition:transform var(--transition-default), box-shadow var(--transition-default), border-color var(--transition-default);
+        }
+        .work-card:hover{
+            transform:translateY(-3px);
+            box-shadow:0px 6px 18px rgba(0,0,0,0.06);
+            border-color:var(--accent);
+        }
+        .work-card .card-label{
+            font-size:11px;
+            color:var(--accent);
+            text-transform:uppercase;
+            letter-spacing:0.04em;
+            margin-bottom:6px;
+        }
+        .work-card h3{
+            font-size:15px;
+            font-weight:500;
+            color:var(--text-primary);
+            margin-bottom:4px;
+            line-height:1.4;
+        }
+        .work-card p{
+            font-size:13px;
+            color:var(--text-weak);
+            line-height:1.5;
+        }
+
+        /* 模态框 */
+        .modal-overlay {
+            display:none;
+            position:fixed;
+            top:0;left:0;width:100%;height:100%;
+            background:rgba(0,0,0,0.3);
+            z-index:2000;
+            align-items:center;
+            justify-content:center;
+        }
+        .modal-overlay.active {
+            display:flex;
+        }
+        .modal-content {
+            background:var(--bg-card);
+            border-radius:16px;
+            max-width:600px;
+            width:90%;
+            max-height:80vh;
+            overflow-y:auto;
+            padding:32px;
+            position:relative;
+            box-shadow:0px 12px 40px rgba(0,0,0,0.12);
+            animation:modalFadeIn 300ms ease-out;
+        }
+        .modal-content.image-modal {
+            padding:16px;
+            max-width:90vw;
+            max-height:90vh;
+            overflow:hidden;
+        }
+        .modal-content img {
+            width:100%;
+            height:auto;
+            border-radius:8px;
+            display:block;
+        }
+        @keyframes modalFadeIn {
+            from{opacity:0;transform:translateY(16px);}
+            to{opacity:1;transform:translateY(0);}
+        }
+        .modal-close {
+            position:absolute;
+            top:16px;right:20px;
+            background:none;border:none;
+            font-size:24px;color:var(--text-weak);
+            cursor:pointer;line-height:1;
+            transition:color var(--transition-fast);
+            z-index:10;
+        }
+        .modal-close:hover{color:var(--accent);}
+        .modal-title {
+            font-family:var(--font-heading-en);
+            font-size:22px;
+            font-weight:600;
+            margin-bottom:16px;
+            color:var(--text-primary);
+        }
+        .modal-body {
+            font-size:15px;
+            color:var(--text-secondary);
+            line-height:1.8;
+            white-space:pre-wrap;
+        }
+
+        .bottom-nav{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:64px;
+            padding-top:32px;
+            border-top:1px solid var(--border);
+        }
+        .bottom-nav a{
+            font-size:15px;
+            color:var(--text-secondary);
+            text-decoration:none;
+            transition:color var(--transition-fast);
+        }
+        .bottom-nav a:hover{color:var(--accent);}
+        .footer{
+            padding:32px;
+            text-align:center;
+            border-top:1px solid var(--border);
+            font-size:13px;
+            color:var(--text-weak);
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 500ms cubic-bezier(0.22,1,0.36,1), transform 500ms cubic-bezier(0.22,1,0.36,1);
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-delay-1 { transition-delay: 0ms; }
+        .section-delay-2 { transition-delay: 120ms; }
+        .section-delay-3 { transition-delay: 240ms; }
+
+        @media(max-width:768px){
+            .navbar{padding:0 20px;height:56px;}
+            .navbar-links{gap:16px;}
+            .work-grid{
+                grid-template-columns:1fr;
+            }
+            .modal-content{padding:24px;}
+            .modal-content.image-modal{padding:12px;}
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="navbar-logo">张雪晴的个人网页</a>
+        <ul class="navbar-links">
+            <li><a href="about.html" class="nav-item">简介</a></li>
+            <li><a href="resume.html" class="nav-item">简历</a></li>
+            <li><a href="works.html" class="nav-item">作品集</a></li>
+            <li><a href="contact.html" class="nav-contact-btn">联系</a></li>
+        </ul>
+    </nav>
+
+    <div class="detail-container">
+        <div class="project-header">
+            <h1>文案撰写</h1>
+            <span class="tag">作品展示</span>
+        </div>
+
+        <!-- 品牌Slogan -->
+        <div class="section fade-in-up section-delay-1">
+            <h2>品牌 Slogan</h2>
+            <div class="work-grid">
+                <div class="work-card">
+                    <div class="card-label">Slogan</div>
+                    <h3>“挂剑闯江湖，热血燃破天”</h3>
+                    <p>破天一剑小程序公测主Slogan</p>
+                </div>
+                <div class="work-card">
+                    <div class="card-label">Slogan</div>
+                    <h3>“初心十八载，守护万千情”</h3>
+                    <p>破天一剑端游十八周年庆主Slogan</p>
+                </div>
+                <div class="work-card">
+                    <div class="card-label">Slogan</div>
+                    <h3>“破天聚首，点亮江湖”</h3>
+                    <p>破天一剑手游八周年活动主题Slogan</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 公众号推文（可点击跳转） -->
+        <div class="section fade-in-up section-delay-2">
+            <h2>公众号推文 | 点击可跳转对应推文</h2>
+            <div class="work-grid">
+                <a href="https://mp.weixin.qq.com/s/peLJp5vn98jOkNmnod4BgQ" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">推文</div>
+                    <h3>《游戏内刷怪就有机会掉黄金，这你还不冲？》</h3>
+                    <p>公测核心活动介绍，单篇阅读8K+，单日涨粉500+</p>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/Rit5GtHPkzE9NGbDn3Nq3Q" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">推文</div>
+                    <h3>《【玩家招募】十八载破天时光，你愿意分享你的独家记忆吗？》</h3>
+                    <p>周年庆氛围营造与社区活动规则，收集玩家问卷200+条</p>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/rBhHY3HiKgTADy0WD4sBhg" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">推文</div>
+                    <h3>《【版本爆料】全新外观法相天地即将震撼上线！》</h3>
+                    <p>版本前瞻新外观介绍，阅读量1.2K+</p>
+                </a>
+                <a href="https://mp.weixin.qq.com/s/ulgQMPKZ6z2R1jtbewqZIA" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">推文</div>
+                    <h3>《【玩家专访】听说有玩家手搓了一把死神刀？》</h3>
+                    <p>玩家访谈，阅读量1.1K+</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- 公告文案 -->
+        <div class="section fade-in-up section-delay-3">
+            <h2>公告文案 | 点击可查看完整文字</h2>
+            <div class="work-grid">
+                <div class="work-card" onclick="openTextModal()">
+                    <div class="card-label">群公告</div>
+                    <h3>进群公告</h3>
+                    <p>核心用户群欢迎入群文案</p>
+                </div>
+                <div class="work-card" onclick="openImageModal()">
+                    <div class="card-label">社区公告</div>
+                    <h3>社区活动公告</h3>
+                    <p>英语社区活动公告文案</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="project-4.html">← 上一项目</a>
+            <a href="works.html">返回作品集</a>
+            <a href="project-6.html">下一项目 →</a>
+        </div>
+    </div>
+
+    <!-- 文字弹窗 -->
+    <div class="modal-overlay" id="textModal" onclick="closeTextModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeTextModal()">×</button>
+            <div class="modal-title">进群公告</div>
+            <div class="modal-body">亲爱的架构师们，欢迎登陆小梦空间站创世号！
+祝贺各位经过评选成为首批世界架构师，成功入驻创世号~  
+我们为大家准备了精美的架构师入驻证书（专属的架构师身份证），奖品还在设计制作中，会在三月底之前发给大家~我们会提前两个礼拜通知大家填写地址收礼品！
+文字与思想的力量能够引起新的风暴，引人驻足的精彩世界征服了新的广场版图。
+感谢各位架构师的精彩创作！
+创世群星闪耀时，准备好与小梦一起大开脑洞了吗？
+在这里，结识你志同道合的架构师伙伴，继续开启新的创世之旅！
+日后还会有很多机会与小梦进行官方合作哦~请在自己架构的世界里挥洒才能，大展宏图吧！
+期待各位架构师们新的作品 ！！</div>
+        </div>
+    </div>
+
+    <!-- 图片弹窗 -->
+    <div class="modal-overlay" id="imageModal" onclick="closeImageModal()">
+        <div class="modal-content image-modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeImageModal()">×</button>
+            <img src="dreamily.png" alt="社区活动公告">
+        </div>
+    </div>
+
+    <footer class="footer">
+        <span>手机：15955347751 | 邮箱：zhangxq200302@163.com | 微信：Formula_Aitana</span>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        function updateNavbar(){navbar.classList.toggle('scrolled',window.scrollY>50);}
+        updateNavbar();
+        window.addEventListener('scroll',updateNavbar,{passive:true});
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+        // 文字弹窗
+        function openTextModal(){
+            document.getElementById('textModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeTextModal(){
+            document.getElementById('textModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // 图片弹窗
+        function openImageModal(){
+            document.getElementById('imageModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeImageModal(){
+            document.getElementById('imageModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+</html>

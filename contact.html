@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我 · 张雪晴</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #FAFAF8;
+            --text-primary: #2B2B2B;
+            --text-secondary: #6B6B6B;
+            --text-weak: #999999;
+            --accent: #C4A882;
+            --accent-light: #D4C9BE;
+            --border: #EBE8E3;
+            --font-heading-en: 'Playfair Display', Georgia, serif;
+            --font-body-en: 'Inter', -apple-system, sans-serif;
+            --transition-fast: 250ms cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family:var(--font-body-en);
+            background:var(--bg-page);
+            color:var(--text-primary);
+            line-height:1.6;
+            -webkit-font-smoothing:antialiased;
+            display:flex;
+            flex-direction:column;
+            min-height:100vh;
+        }
+        .navbar{
+            position:fixed;top:0;left:0;width:100%;height:64px;
+            display:flex;align-items:center;justify-content:space-between;
+            padding:0 40px;z-index:1000;
+            transition:background-color 350ms ease-out,box-shadow 350ms ease-out;
+            background:transparent;
+        }
+        .navbar.scrolled{
+            background:rgba(250,250,248,0.88)!important;
+            backdrop-filter:blur(16px);
+            box-shadow:0 1px 0 rgba(0,0,0,0.04);
+        }
+        .navbar-logo{font-size:18px;font-weight:500;color:var(--text-primary);text-decoration:none;}
+        .navbar-links{display:flex;gap:36px;list-style:none;}
+        .navbar-links a{font-size:14px;color:var(--text-primary);text-decoration:none;position:relative;}
+        .navbar-links a:hover{color:var(--accent);}
+        .navbar-links a.nav-item::after{
+            content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+            width:0;height:1.5px;background:var(--accent);transition:width var(--transition-fast);
+        }
+        .navbar-links a.nav-item:hover::after{width:60%;}
+        .navbar-links a.active{color:var(--accent);}
+        .navbar-links a.active::after{width:60%;}
+        .nav-contact-btn{
+            background:var(--accent)!important;color:#fff!important;
+            padding:7px 20px;border-radius:20px;font-size:13px;font-weight:500;
+        }
+
+        .contact-main{
+            flex:1;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            padding:120px 24px 60px;
+        }
+        .contact-title{
+            font-family:var(--font-heading-en);
+            font-size:clamp(36px,5vw,48px);
+            font-weight:700;
+            color:var(--text-primary);
+            margin-bottom:8px;
+        }
+        .contact-subtitle{
+            font-size:16px;
+            color:var(--text-weak);
+            margin-bottom:48px;
+        }
+        .contact-card{
+            background:#fff;
+            border:1px solid var(--border);
+            border-radius:16px;
+            padding:48px 40px;
+            max-width:420px;
+            width:100%;
+            box-shadow:0px 4px 16px rgba(0,0,0,0.04);
+            text-align: left;
+        }
+        .contact-item{
+            padding:16px 0;
+            border-bottom:1px solid var(--border);
+            font-size:16px;
+            color:var(--text-secondary);
+        }
+        .contact-item:last-child{
+            border-bottom:none;
+        }
+        .contact-label{
+            color:var(--accent);
+            font-weight:500;
+        }
+        .contact-item a{
+            color:var(--text-secondary);
+            text-decoration:none;
+            transition:color var(--transition-fast);
+            border-bottom:1px solid transparent;
+        }
+        .contact-item a:hover{
+            color:var(--accent);
+            border-bottom-color:var(--accent-light);
+        }
+        .footer{
+            padding:32px;
+            text-align:center;
+            border-top:1px solid var(--border);
+            font-size:13px;
+            color:var(--text-weak);
+        }
+        @media(max-width:768px){
+            .navbar{padding:0 20px;height:56px;}
+            .navbar-links{gap:16px;}
+            .contact-card{padding:32px 24px;}
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="navbar-logo">张雪晴的个人网页</a>
+        <ul class="navbar-links">
+            <li><a href="about.html" class="nav-item">简介</a></li>
+            <li><a href="resume.html" class="nav-item">简历</a></li>
+            <li><a href="works.html" class="nav-item">作品集</a></li>
+            <li><a href="contact.html" class="nav-contact-btn active">联系</a></li>
+        </ul>
+    </nav>
+
+    <div class="contact-main">
+        <h1 class="contact-title">Get in Touch</h1>
+        <p class="contact-subtitle">期待与你交流</p>
+        <div class="contact-card">
+            <div class="contact-item"><span class="contact-label">手机：</span>15955347751</div>
+            <div class="contact-item"><span class="contact-label">邮箱：</span><a href="mailto:zhangxq200302@163.com">zhangxq200302@163.com</a></div>
+            <div class="contact-item"><span class="contact-label">微信：</span>Formula_Aitana</div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <span>手机：15955347751 | 邮箱：zhangxq200302@163.com | 微信：Formula_Aitana</span>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        function updateNavbar(){navbar.classList.toggle('scrolled',window.scrollY>50);}
+        updateNavbar();
+        window.addEventListener('scroll',updateNavbar,{passive:true});
+    </script>
+</body>
+</html>

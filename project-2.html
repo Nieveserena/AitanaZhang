@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新破天一剑·会战天下端游十八周年庆 · 作品详情</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #FAFAF8;
+            --bg-card: #FFFFFF;
+            --text-primary: #2B2B2B;
+            --text-secondary: #6B6B6B;
+            --text-weak: #999999;
+            --accent: #C4A882;
+            --accent-light: #D4C9BE;
+            --accent-lighter: #E8E0D6;
+            --border: #EBE8E3;
+            --font-heading-en: 'Playfair Display', Georgia, serif;
+            --font-body-en: 'Inter', -apple-system, sans-serif;
+            --transition-default: 350ms cubic-bezier(0.25,0.1,0.25,1);
+            --transition-fast: 250ms cubic-bezier(0.25,0.1,0.25,1);
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family:var(--font-body-en);
+            background:var(--bg-page);
+            color:var(--text-primary);
+            line-height:1.6;
+            -webkit-font-smoothing:antialiased;
+        }
+        .navbar{
+            position:fixed;top:0;left:0;width:100%;height:64px;
+            display:flex;align-items:center;justify-content:space-between;
+            padding:0 40px;z-index:1000;
+            transition:background-color 350ms ease-out,box-shadow 350ms ease-out;
+            background:transparent;
+        }
+        .navbar.scrolled{
+            background:rgba(250,250,248,0.88)!important;
+            backdrop-filter:blur(16px);
+            box-shadow:0 1px 0 rgba(0,0,0,0.04);
+        }
+        .navbar-logo{font-size:18px;font-weight:500;color:var(--text-primary);text-decoration:none;}
+        .navbar-links{display:flex;gap:36px;list-style:none;}
+        .navbar-links a{font-size:14px;color:var(--text-primary);text-decoration:none;position:relative;}
+        .navbar-links a:hover{color:var(--accent);}
+        .navbar-links a.nav-item::after{
+            content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+            width:0;height:1.5px;background:var(--accent);transition:width var(--transition-fast);
+        }
+        .navbar-links a.nav-item:hover::after{width:60%;}
+        .nav-contact-btn{
+            background:var(--accent)!important;color:#fff!important;
+            padding:7px 20px;border-radius:20px;font-size:13px;font-weight:500;
+            animation:contactBreathe 3.5s ease-in-out infinite;
+        }
+        @keyframes contactBreathe{
+            0%,100%{box-shadow:0 0 0 rgba(196,168,130,0)}
+            50%{box-shadow:0 0 14px rgba(196,168,130,0.35)}
+        }
+
+        .detail-container{
+            max-width:750px;
+            margin:0 auto;
+            padding:120px 24px 80px;
+        }
+        .project-header{
+            text-align:center;
+            margin-bottom:48px;
+        }
+        .project-header h1{
+            font-family:var(--font-heading-en);
+            font-size:clamp(32px,5vw,42px);
+            font-weight:700;
+            color:var(--text-primary);
+        }
+        .project-header .tag{
+            display:inline-block;
+            background:rgba(212,201,190,0.35);
+            color:var(--accent);
+            font-size:12px;
+            padding:4px 16px;
+            border-radius:12px;
+            margin-top:12px;
+        }
+        .featured-image{
+            width:100%;
+            border-radius:14px;
+            margin-bottom:48px;
+            border:1px solid var(--border);
+        }
+        .module{
+            margin-bottom:48px;
+            padding-left: 20px;
+            border-left: 2px solid var(--accent-light);
+        }
+        .module h2{
+            font-family:var(--font-heading-en);
+            font-size:20px;
+            font-weight:600;
+            color:var(--text-primary);
+            margin-bottom:16px;
+        }
+        .module p, .module li{
+            font-size:15px;
+            color:var(--text-secondary);
+            line-height:1.7;
+        }
+        .module ol{
+            list-style:none;
+            counter-reset: step;
+        }
+        .module ol li{
+            counter-increment: step;
+            position:relative;
+            padding-left:28px;
+            margin-bottom:10px;
+        }
+        .module ol li::before{
+            content:counter(step);
+            position:absolute;
+            left:0;
+            top:0;
+            font-size:13px;
+            font-weight:600;
+            color:var(--accent);
+            background:rgba(212,201,190,0.3);
+            width:20px;
+            height:20px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .highlight{
+            color:var(--accent);
+            font-weight:500;
+        }
+        .cta-btn-wrap {
+            text-align: center;
+            margin-top: -24px;
+            margin-bottom: 48px;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 15px;
+            text-decoration: none;
+            transition: background-color var(--transition-fast), transform var(--transition-fast);
+        }
+        .cta-btn:hover {
+            background: #b89a76;
+            transform: translateY(-1px);
+        }
+        .bottom-nav{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:64px;
+            padding-top:32px;
+            border-top:1px solid var(--border);
+        }
+        .bottom-nav a{
+            font-size:15px;
+            color:var(--text-secondary);
+            text-decoration:none;
+            transition:color var(--transition-fast);
+        }
+        .bottom-nav a:hover{color:var(--accent);}
+        .footer{
+            padding:32px;
+            text-align:center;
+            border-top:1px solid var(--border);
+            font-size:13px;
+            color:var(--text-weak);
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 500ms cubic-bezier(0.22,1,0.36,1), transform 500ms cubic-bezier(0.22,1,0.36,1);
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .module-delay-1 { transition-delay: 0ms; }
+        .module-delay-2 { transition-delay: 100ms; }
+        .module-delay-3 { transition-delay: 200ms; }
+        .module-delay-4 { transition-delay: 300ms; }
+
+        @media(max-width:768px){
+            .navbar{padding:0 20px;height:56px;}
+            .navbar-links{gap:16px;}
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="navbar-logo">张雪晴的个人网页</a>
+        <ul class="navbar-links">
+            <li><a href="about.html" class="nav-item">简介</a></li>
+            <li><a href="resume.html" class="nav-item">简历</a></li>
+            <li><a href="works.html" class="nav-item">作品集</a></li>
+            <li><a href="contact.html" class="nav-contact-btn">联系</a></li>
+        </ul>
+    </nav>
+
+    <div class="detail-container">
+        <div class="project-header">
+            <h1>新破天一剑·会战天下端游十八周年庆</h1>
+            <span class="tag">整合营销</span>
+        </div>
+
+        <img src="project2.png" alt="项目主视觉" class="featured-image fade-in-up module-delay-1">
+
+        <div class="module fade-in-up module-delay-1">
+            <h2>项目背景</h2>
+            <p>《破天一剑》端游迎来<span class="highlight">十八周年</span>节点，面对一款运营近二十年的老游戏，需要在周年庆期间唤醒<span class="highlight">老玩家情感共鸣</span>，强化IP归属感，同时为游戏注入新的热度与话题。</p>
+        </div>
+        <div class="module fade-in-up module-delay-2">
+            <h2>策略思考</h2>
+            <p>以<span class="highlight">“情怀”为核心锚点</span>，摒弃传统促销式周年庆思路，转而通过<span class="highlight">玩家故事纪录片</span>和<span class="highlight">官方主题曲</span>两大情感载体，讲述玩家与游戏共同成长的十八年，用真实故事引发情感共振，实现<span class="highlight">品牌向传播</span>。</p>
+        </div>
+        <div class="module fade-in-up module-delay-3">
+            <h2>执行亮点</h2>
+            <ol>
+                <li>策划并制作玩家纪录片，官方线下拜访<span class="highlight">3位资深玩家</span>，挖掘十八年间的真实故事与情感记忆；</li>
+                <li>联合音乐团队打造十八周年官方主题曲，歌词融入游戏经典元素与玩家共同回忆，并<span class="highlight">邀请玩家与项目组成员共唱</span>，营造玩家主人翁感；</li>
+                <li>纪录片与主题曲在抖音、公众号等平台与<span class="highlight">配套社区互动活动</span>同步发布，配合玩家社群二次传播。</li>
+            </ol>
+        </div>
+        <div class="module fade-in-up module-delay-4">
+            <h2>项目成果</h2>
+            <p>纪录片播放量 <span class="highlight">30W+</span>，互动率 <span class="highlight">2.41%</span>；主题曲播放量 <span class="highlight">175W+</span>，点赞 <span class="highlight">1.8W+</span>，成功营造玩家归属感与品牌温度。</p>
+        </div>
+
+        <div class="cta-btn-wrap">
+            <a href="https://pcik.iccgame.com/activity/18anniv/index.html" target="_blank" rel="noopener noreferrer" class="cta-btn">访问专题页</a>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="project-1.html">← 上一项目</a>
+            <a href="works.html">返回作品集</a>
+            <a href="project-3.html">下一项目 →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <span>手机：15955347751 | 邮箱：zhangxq200302@163.com | 微信：Formula_Aitana</span>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        function updateNavbar(){navbar.classList.toggle('scrolled',window.scrollY>50);}
+        updateNavbar();
+        window.addEventListener('scroll',updateNavbar,{passive:true});
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

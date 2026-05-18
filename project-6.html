@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频作品 · 作品展示</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #FAFAF8;
+            --bg-card: #FFFFFF;
+            --text-primary: #2B2B2B;
+            --text-secondary: #6B6B6B;
+            --text-weak: #999999;
+            --accent: #C4A882;
+            --accent-light: #D4C9BE;
+            --accent-lighter: #E8E0D6;
+            --border: #EBE8E3;
+            --font-heading-en: 'Playfair Display', Georgia, serif;
+            --font-body-en: 'Inter', -apple-system, sans-serif;
+            --transition-default: 350ms cubic-bezier(0.25,0.1,0.25,1);
+            --transition-fast: 250ms cubic-bezier(0.25,0.1,0.25,1);
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family:var(--font-body-en);
+            background:var(--bg-page);
+            color:var(--text-primary);
+            line-height:1.6;
+            -webkit-font-smoothing:antialiased;
+        }
+        .navbar{
+            position:fixed;top:0;left:0;width:100%;height:64px;
+            display:flex;align-items:center;justify-content:space-between;
+            padding:0 40px;z-index:1000;
+            transition:background-color 350ms ease-out,box-shadow 350ms ease-out;
+            background:transparent;
+        }
+        .navbar.scrolled{
+            background:rgba(250,250,248,0.88)!important;
+            backdrop-filter:blur(16px);
+            box-shadow:0 1px 0 rgba(0,0,0,0.04);
+        }
+        .navbar-logo{font-size:18px;font-weight:500;color:var(--text-primary);text-decoration:none;}
+        .navbar-links{display:flex;gap:36px;list-style:none;}
+        .navbar-links a{font-size:14px;color:var(--text-primary);text-decoration:none;position:relative;}
+        .navbar-links a:hover{color:var(--accent);}
+        .navbar-links a.nav-item::after{
+            content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+            width:0;height:1.5px;background:var(--accent);transition:width var(--transition-fast);
+        }
+        .navbar-links a.nav-item:hover::after{width:60%;}
+        .nav-contact-btn{
+            background:var(--accent)!important;color:#fff!important;
+            padding:7px 20px;border-radius:20px;font-size:13px;font-weight:500;
+            animation:contactBreathe 3.5s ease-in-out infinite;
+        }
+        @keyframes contactBreathe{
+            0%,100%{box-shadow:0 0 0 rgba(196,168,130,0)}
+            50%{box-shadow:0 0 14px rgba(196,168,130,0.35)}
+        }
+
+        .detail-container{
+            max-width:750px;
+            margin:0 auto;
+            padding:120px 24px 80px;
+        }
+        .project-header{
+            text-align:center;
+            margin-bottom:48px;
+        }
+        .project-header h1{
+            font-family:var(--font-heading-en);
+            font-size:clamp(32px,5vw,42px);
+            font-weight:700;
+            color:var(--text-primary);
+        }
+        .project-header .tag{
+            display:inline-block;
+            background:rgba(212,201,190,0.35);
+            color:var(--accent);
+            font-size:12px;
+            padding:4px 16px;
+            border-radius:12px;
+            margin-top:12px;
+        }
+
+        .section{
+            margin-bottom:48px;
+            padding-left: 20px;
+            border-left: 2px solid var(--accent-light);
+        }
+        .section h2{
+            font-family:var(--font-heading-en);
+            font-size:20px;
+            font-weight:600;
+            color:var(--text-primary);
+            margin-bottom:20px;
+        }
+        .work-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+            gap:16px;
+        }
+        .work-card{
+            display:block;
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:10px;
+            padding:20px 18px;
+            text-decoration:none;
+            color:inherit;
+            cursor:pointer;
+            transition:transform var(--transition-default), box-shadow var(--transition-default), border-color var(--transition-default);
+        }
+        .work-card:hover{
+            transform:translateY(-3px);
+            box-shadow:0px 6px 18px rgba(0,0,0,0.06);
+            border-color:var(--accent);
+        }
+        .work-card .card-label{
+            font-size:11px;
+            color:var(--accent);
+            text-transform:uppercase;
+            letter-spacing:0.04em;
+            margin-bottom:6px;
+        }
+        .work-card h3{
+            font-size:15px;
+            font-weight:500;
+            color:var(--text-primary);
+            margin-bottom:4px;
+            line-height:1.4;
+        }
+        .work-card p{
+            font-size:13px;
+            color:var(--text-weak);
+            line-height:1.5;
+        }
+        .work-card .data-highlight {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .bottom-nav{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:64px;
+            padding-top:32px;
+            border-top:1px solid var(--border);
+        }
+        .bottom-nav a{
+            font-size:15px;
+            color:var(--text-secondary);
+            text-decoration:none;
+            transition:color var(--transition-fast);
+        }
+        .bottom-nav a:hover{color:var(--accent);}
+        .footer{
+            padding:32px;
+            text-align:center;
+            border-top:1px solid var(--border);
+            font-size:13px;
+            color:var(--text-weak);
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 500ms cubic-bezier(0.22,1,0.36,1), transform 500ms cubic-bezier(0.22,1,0.36,1);
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-delay-1 { transition-delay: 0ms; }
+        .section-delay-2 { transition-delay: 120ms; }
+        .section-delay-3 { transition-delay: 240ms; }
+
+        @media(max-width:768px){
+            .navbar{padding:0 20px;height:56px;}
+            .navbar-links{gap:16px;}
+            .work-grid{
+                grid-template-columns:1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="navbar-logo">张雪晴的个人网页</a>
+        <ul class="navbar-links">
+            <li><a href="about.html" class="nav-item">简介</a></li>
+            <li><a href="resume.html" class="nav-item">简历</a></li>
+            <li><a href="works.html" class="nav-item">作品集</a></li>
+            <li><a href="contact.html" class="nav-contact-btn">联系</a></li>
+        </ul>
+    </nav>
+
+    <div class="detail-container">
+        <div class="project-header">
+            <h1>视频作品</h1>
+            <span class="tag">作品展示</span>
+        </div>
+
+        <!-- 混剪类 -->
+        <div class="section fade-in-up section-delay-1">
+            <h2>混剪类 | 点击可跳转观看</h2>
+            <div class="work-grid">
+                <a href="https://video.weibo.com/show?fid=1034:5016882885886011" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">混剪</div>
+                    <h3>尤利娅·克拉耶夫斯基东奥比赛回顾</h3>
+                    <p>播放量 <span class="data-highlight">2.2W</span></p>
+                </a>
+                <a href="https://weibo.com/1854869497/5022245090755084" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">混剪</div>
+                    <h3>刘诗雯24年生贺</h3>
+                    <p>播放量 <span class="data-highlight">14.7W</span></p>
+                </a>
+                <a href="https://weibo.com/1854869497/5011433849622280" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">混剪</div>
+                    <h3>奥运会资格系列赛预热</h3>
+                    <p>播放量 <span class="data-highlight">14.9W</span></p>
+                </a>
+            </div>
+        </div>
+
+        <!-- 互动类 -->
+        <div class="section fade-in-up section-delay-2">
+            <h2>互动类 | 点击可跳转观看</h2>
+            <div class="work-grid">
+                <a href="https://weibo.com/1854869497/5014468849305606" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">互动视频</div>
+                    <h3>你会在Kiss & Cry做些什么呢？</h3>
+                    <p>播放量 <span class="data-highlight">11.1W</span></p>
+                </a>
+                <a href="https://video.weibo.com/show?fid=1034:5016884270006318" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">互动视频</div>
+                    <h3>写作文时引用过哪位选手的奥运故事呢？</h3>
+                    <p>播放量 <span class="data-highlight">3.5W</span></p>
+                </a>
+            </div>
+        </div>
+
+        <!-- UGC二创 -->
+        <div class="section fade-in-up section-delay-3">
+            <h2>UGC 二创 | 点击可跳转观看</h2>
+            <div class="work-grid">
+                <a href="https://www.bilibili.com/video/BV1Pj421d7TL/" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">UGC二创</div>
+                    <h3>你以为她只是扔标枪而已吗？</h3>
+                    <p>播放量 <span class="data-highlight">479.7W</span></p>
+                </a>
+                <a href="https://www.bilibili.com/video/BV11z421k7U1/" target="_blank" rel="noopener noreferrer" class="work-card">
+                    <div class="card-label">UGC二创</div>
+                    <h3>小孩收足球的方式</h3>
+                    <p>播放量 <span class="data-highlight">48.4W</span></p>
+                </a>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="project-5.html">← 上一项目</a>
+            <a href="works.html">返回作品集</a>
+            <a href="project-7.html">下一项目 →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <span>手机：15955347751 | 邮箱：zhangxq200302@163.com | 微信：Formula_Aitana</span>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        function updateNavbar(){navbar.classList.toggle('scrolled',window.scrollY>50);}
+        updateNavbar();
+        window.addEventListener('scroll',updateNavbar,{passive:true});
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

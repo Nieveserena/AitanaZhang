@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平面设计 · 作品展示</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #FAFAF8;
+            --bg-card: #FFFFFF;
+            --text-primary: #2B2B2B;
+            --text-secondary: #6B6B6B;
+            --text-weak: #999999;
+            --accent: #C4A882;
+            --accent-light: #D4C9BE;
+            --accent-lighter: #E8E0D6;
+            --border: #EBE8E3;
+            --font-heading-en: 'Playfair Display', Georgia, serif;
+            --font-body-en: 'Inter', -apple-system, sans-serif;
+            --transition-default: 350ms cubic-bezier(0.25,0.1,0.25,1);
+            --transition-fast: 250ms cubic-bezier(0.25,0.1,0.25,1);
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family:var(--font-body-en);
+            background:var(--bg-page);
+            color:var(--text-primary);
+            line-height:1.6;
+            -webkit-font-smoothing:antialiased;
+        }
+        .navbar{
+            position:fixed;top:0;left:0;width:100%;height:64px;
+            display:flex;align-items:center;justify-content:space-between;
+            padding:0 40px;z-index:1000;
+            transition:background-color 350ms ease-out,box-shadow 350ms ease-out;
+            background:transparent;
+        }
+        .navbar.scrolled{
+            background:rgba(250,250,248,0.88)!important;
+            backdrop-filter:blur(16px);
+            box-shadow:0 1px 0 rgba(0,0,0,0.04);
+        }
+        .navbar-logo{font-size:18px;font-weight:500;color:var(--text-primary);text-decoration:none;}
+        .navbar-links{display:flex;gap:36px;list-style:none;}
+        .navbar-links a{font-size:14px;color:var(--text-primary);text-decoration:none;position:relative;}
+        .navbar-links a:hover{color:var(--accent);}
+        .navbar-links a.nav-item::after{
+            content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+            width:0;height:1.5px;background:var(--accent);transition:width var(--transition-fast);
+        }
+        .navbar-links a.nav-item:hover::after{width:60%;}
+        .nav-contact-btn{
+            background:var(--accent)!important;color:#fff!important;
+            padding:7px 20px;border-radius:20px;font-size:13px;font-weight:500;
+            animation:contactBreathe 3.5s ease-in-out infinite;
+        }
+        @keyframes contactBreathe{
+            0%,100%{box-shadow:0 0 0 rgba(196,168,130,0)}
+            50%{box-shadow:0 0 14px rgba(196,168,130,0.35)}
+        }
+
+        .detail-container{
+            max-width:900px;
+            margin:0 auto;
+            padding:120px 24px 80px;
+        }
+        .project-header{
+            text-align:center;
+            margin-bottom:48px;
+        }
+        .project-header h1{
+            font-family:var(--font-heading-en);
+            font-size:clamp(32px,5vw,42px);
+            font-weight:700;
+            color:var(--text-primary);
+        }
+        .project-header .tag{
+            display:inline-block;
+            background:rgba(212,201,190,0.35);
+            color:var(--accent);
+            font-size:12px;
+            padding:4px 16px;
+            border-radius:12px;
+            margin-top:12px;
+        }
+
+        /* 瀑布流 */
+        .masonry {
+            column-count: 3;
+            column-gap: 16px;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 16px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform var(--transition-default), box-shadow var(--transition-default);
+            line-height: 0;
+        }
+        .masonry-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 8px 24px rgba(0,0,0,0.10);
+        }
+        .masonry-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .bottom-nav{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:64px;
+            padding-top:32px;
+            border-top:1px solid var(--border);
+        }
+        .bottom-nav a{
+            font-size:15px;
+            color:var(--text-secondary);
+            text-decoration:none;
+            transition:color var(--transition-fast);
+        }
+        .bottom-nav a:hover{color:var(--accent);}
+        .footer{
+            padding:32px;
+            text-align:center;
+            border-top:1px solid var(--border);
+            font-size:13px;
+            color:var(--text-weak);
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 500ms cubic-bezier(0.22,1,0.36,1), transform 500ms cubic-bezier(0.22,1,0.36,1);
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media(max-width:768px){
+            .navbar{padding:0 20px;height:56px;}
+            .navbar-links{gap:16px;}
+            .masonry {
+                column-count: 2;
+                column-gap: 10px;
+            }
+            .masonry-item {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="navbar-logo">张雪晴的个人网页</a>
+        <ul class="navbar-links">
+            <li><a href="about.html" class="nav-item">简介</a></li>
+            <li><a href="resume.html" class="nav-item">简历</a></li>
+            <li><a href="works.html" class="nav-item">作品集</a></li>
+            <li><a href="contact.html" class="nav-contact-btn">联系</a></li>
+        </ul>
+    </nav>
+
+    <div class="detail-container">
+        <div class="project-header">
+            <h1>平面设计</h1>
+            <span class="tag">作品展示</span>
+        </div>
+
+        <!-- 瀑布流：图片8和图片9已互换位置 -->
+        <div class="masonry fade-in-up">
+            <div class="masonry-item"><img src="pictures/1.jpg" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/5.png" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/8.png" alt="设计作品"></div> <!-- 原来是9，改为8 -->
+            <div class="masonry-item"><img src="pictures/2.jpg" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/10.png" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/3.png" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/11.png" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/6.png" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/12.jpg" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/4.png" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/13.png" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/7.png" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/14.png" alt="设计作品"></div>
+            <div class="masonry-item"><img src="pictures/9.png" alt="设计作品"></div> <!-- 原来是8，改为9 -->
+        </div>
+
+        <div class="bottom-nav">
+            <a href="project-6.html">← 上一项目</a>
+            <a href="works.html">返回作品集</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <span>手机：15955347751 | 邮箱：zhangxq200302@163.com | 微信：Formula_Aitana</span>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        function updateNavbar(){navbar.classList.toggle('scrolled',window.scrollY>50);}
+        updateNavbar();
+        window.addEventListener('scroll',updateNavbar,{passive:true});
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

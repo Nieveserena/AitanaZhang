@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 · 张雪晴</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #FAFAF8;
+            --bg-card: #FFFFFF;
+            --text-primary: #2B2B2B;
+            --text-secondary: #6B6B6B;
+            --text-weak: #999999;
+            --accent: #C4A882;
+            --accent-light: #D4C9BE;
+            --accent-lighter: #E8E0D6;
+            --border: #EBE8E3;
+            --shadow-default: 0px 2px 8px rgba(0,0,0,0.04);
+            --shadow-hover: 0px 8px 24px rgba(0,0,0,0.08);
+            --font-heading-en: 'Playfair Display', Georgia, serif;
+            --font-body-en: 'Inter', -apple-system, sans-serif;
+            --transition-default: 350ms cubic-bezier(0.25, 0.1, 0.25, 1);
+            --transition-fast: 250ms cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body-en);
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 64px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 40px; z-index: 1000;
+            transition: background-color 350ms ease-out, box-shadow 350ms ease-out;
+            background-color: transparent; box-shadow: none;
+        }
+        .navbar.scrolled {
+            background-color: rgba(250,250,248,0.88) !important;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            box-shadow: 0px 1px 0px rgba(0,0,0,0.04);
+        }
+        .navbar-logo {
+            font-family: var(--font-body-en); font-size: 18px; font-weight: 500;
+            color: var(--text-primary); text-decoration: none; letter-spacing: 0.03em;
+            transition: color var(--transition-fast);
+        }
+        .navbar-logo:hover { color: var(--accent); }
+        .navbar-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+        .navbar-links a {
+            font-family: var(--font-body-en); font-size: 14px; font-weight: 400;
+            color: var(--text-primary); text-decoration: none; position: relative;
+            padding: 4px 0; transition: color var(--transition-fast);
+        }
+        .navbar-links a:hover { color: var(--accent); }
+        .navbar-links a.nav-item::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 0; height: 1.5px; background-color: var(--accent); transition: width var(--transition-fast);
+        }
+        .navbar-links a.nav-item:hover::after { width: 60%; }
+        .navbar-links a.active { color: var(--accent); }
+        .navbar-links a.active::after { width: 60%; }
+        .nav-contact-btn {
+            background-color: var(--accent) !important; color: #FFFFFF !important;
+            padding: 7px 20px !important; border-radius: 20px !important;
+            font-size: 13px !important; font-weight: 500 !important;
+            transition: background-color var(--transition-fast), transform var(--transition-fast) !important;
+            animation: contactBreathe 3.5s ease-in-out infinite;
+        }
+        .nav-contact-btn:hover { background-color: #b89a76 !important; transform: scale(1.03); }
+        .nav-contact-btn::after { display: none !important; }
+        @keyframes contactBreathe {
+            0%,100%{ box-shadow: 0px 0px 0px rgba(196,168,130,0); }
+            50%{ box-shadow: 0px 0px 14px rgba(196,168,130,0.35); }
+        }
+
+        /* ========== 第一屏 ========== */
+        .first-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 24px 60px;
+            position: relative;
+        }
+        .page-title {
+            font-family: var(--font-heading-en);
+            font-size: clamp(36px, 5vw, 48px);
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            margin-bottom: 4px;
+        }
+        .page-subtitle {
+            font-family: var(--font-body-en);
+            font-size: 15px;
+            color: var(--text-weak);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 48px;
+            max-width: 600px;
+        }
+        /* 视频容器 */
+        .glitch-container {
+            width: 200px;
+            height: 200px;
+            flex-shrink: 0;
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0px 4px 16px rgba(0,0,0,0.06);
+            border: 3px solid var(--border);
+            transition: transform var(--transition-default), box-shadow var(--transition-default);
+        }
+        .glitch-container:hover { transform: scale(1.05); box-shadow: 0px 8px 24px rgba(0,0,0,0.10); }
+        .glitch-video,
+        .glitch-photo {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: opacity 0.4s ease;
+        }
+        .glitch-video { z-index: 1; opacity: 1; }
+        .glitch-photo { z-index: 2; opacity: 0; }
+        .glitch-container:hover .glitch-video { opacity: 0; }
+        .glitch-container:hover .glitch-photo { opacity: 1; }
+
+        /* 简介文字 */
+        .about-text {
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        .about-text .highlight {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* 向下滚动指示器 */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: var(--text-weak);
+            transition: opacity var(--transition-default);
+            z-index: 1;
+        }
+        .scroll-indicator:hover { opacity: 0.7; }
+        .scroll-arrow {
+            font-size: 20px;
+            animation: arrowFloat 2s ease-in-out infinite;
+        }
+        @keyframes arrowFloat {
+            0%,100%{ transform: translateY(0); opacity: 0.6; }
+            50%{ transform: translateY(-10px); opacity: 1; }
+        }
+        .scroll-text {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            margin-top: 6px;
+            text-transform: uppercase;
+            animation: arrowFloat 2s ease-in-out infinite;
+            animation-delay: 0.2s;
+        }
+        .sparkle {
+            position: absolute;
+            bottom: -8px;
+            width: 3px;
+            height: 3px;
+            background: var(--accent-light);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ========== 第二屏（技能分类展示） ========== */
+        .skills-section {
+            min-height: 100vh;
+            padding: 100px 24px 120px;
+            background: linear-gradient(180deg, var(--bg-page) 0%, #F7F5F2 50%, var(--bg-page) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .skills-title {
+            font-family: var(--font-heading-en);
+            font-size: clamp(28px, 4vw, 36px);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 48px;
+            letter-spacing: -0.01em;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 800px;
+            width: 100%;
+        }
+        .skill-category {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px 24px;
+            box-shadow: var(--shadow-default);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        .skill-category:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        .category-title {
+            font-family: var(--font-heading-en);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        .category-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .category-list li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            padding-left: 16px;
+            position: relative;
+        }
+        .category-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 9px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: var(--accent-light);
+        }
+        .skill-tag {
+            display: inline-block;
+            background-color: rgba(212, 201, 190, 0.3);
+            color: var(--accent);
+            font-size: 12px;
+            padding: 1px 8px;
+            border-radius: 10px;
+            margin-left: 4px;
+            font-weight: 500;
+        }
+
+        /* ========== 游戏经历板块 ========== */
+        .games-section {
+            min-height: 100vh;
+            padding: 100px 24px;
+            background: linear-gradient(180deg, var(--bg-page) 0%, #F7F5F2 50%, var(--bg-page) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            width: 100%;
+        }
+        .game-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow-default);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        .game-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        .game-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+        .game-card-body {
+            padding: 20px 18px;
+        }
+        .game-name {
+            font-family: var(--font-heading-en);
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .game-genre {
+            font-size: 12px;
+            color: var(--accent);
+            background: rgba(212,201,190,0.3);
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* 页脚 */
+        .footer {
+            width: 100%;
+            padding: 36px 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            background-color: var(--bg-page);
+        }
+        .footer-content {
+            font-size: 13px;
+            color: var(--text-weak);
+            letter-spacing: 0.04em;
+        }
+        .footer-content a {
+            color: var(--text-weak);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+            border-bottom: 1px solid transparent;
+        }
+        .footer-content a:hover { color: var(--accent); border-bottom-color: var(--accent-light); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .navbar { padding: 0 20px; height: 56px; }
+            .navbar-links { gap: 16px; }
+            .navbar-links a { font-size: 12px; }
+            .nav-contact-btn { padding: 5px 14px !important; font-size: 11px !important; }
+            .about-text { font-size: 16px; }
+            .glitch-container { width: 150px; height: 150px; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .games-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="navbar-logo">张雪晴的个人网页</a>
+        <ul class="navbar-links">
+            <li><a href="about.html" class="nav-item active">简介</a></li>
+            <li><a href="resume.html" class="nav-item">简历</a></li>
+            <li><a href="works.html" class="nav-item">作品集</a></li>
+            <li><a href="contact.html" class="nav-contact-btn">联系</a></li>
+        </ul>
+    </nav>
+
+    <!-- 第一屏 -->
+    <section class="first-screen" id="firstScreen">
+        <h1 class="page-title">About Me</h1>
+        <p class="page-subtitle">Know more about me</p>
+
+        <div class="about-content">
+            <div class="glitch-container">
+                <video class="glitch-video" autoplay loop muted playsinline>
+                    <source src="glitch.mp4" type="video/mp4">
+                </video>
+                <img src="photo.jpg" alt="张雪晴" class="glitch-photo">
+            </div>
+
+            <p class="about-text">
+                我是<span class="highlight">张雪晴</span>。进入<span class="highlight">游戏IP营销与新媒体运营</span>领域已有两年，擅长策划整合营销活动、从0到1搭建社区和创作高互动内容~<br>
+                我的职业宣言是：<span class="highlight">能在22岁深耕破天一剑，以后没有你做不了的项目了！</span>
+            </p>
+        </div>
+
+        <div class="scroll-indicator" onclick="document.getElementById('skillsSection').scrollIntoView({behavior:'smooth'})">
+            <span class="scroll-arrow">↓</span>
+            <span class="scroll-text">My Skills</span>
+            <div class="sparkle" id="sparkleAbout"></div>
+        </div>
+    </section>
+
+    <!-- 第二屏：技能分类展示 -->
+    <section class="skills-section" id="skillsSection">
+        <h2 class="skills-title">My Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3 class="category-title">语言能力</h3>
+                <ul class="category-list">
+                    <li>英语 <span class="skill-tag">CET-6 574分</span></li>
+                    <li>西班牙语 <span class="skill-tag">专四水平</span></li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3 class="category-title">策略与营销</h3>
+                <ul class="category-list">
+                    <li>品牌策划 <span class="skill-tag">品牌定位、策略制定</span></li>
+                    <li>整合营销 <span class="skill-tag">线上+线下全案策划</span></li>
+                    <li>数据分析 <span class="skill-tag">复盘、策略优化</span></li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3 class="category-title">内容与创意</h3>
+                <ul class="category-list">
+                    <li>新媒体运营 <span class="skill-tag">公众号、抖音、游戏圈</span></li>
+                    <li>内容创作 <span class="skill-tag">文案、海报、视频</span></li>
+                    <li>社区搭建 <span class="skill-tag">从0到1冷启动、UGC激励</span></li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3 class="category-title">设计与工具</h3>
+                <ul class="category-list">
+                    <li>设计工具 <span class="skill-tag">PS / Canva / Figma / 秀米</span></li>
+                    <li>视频剪辑 <span class="skill-tag">剪映 / PR</span></li>
+                    <li>AI 创作 <span class="skill-tag">即梦 / Midjourney</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 向下箭头，滚动到游戏经历 -->
+        <div class="scroll-indicator" onclick="document.getElementById('gamesSection').scrollIntoView({behavior:'smooth'})">
+            <span class="scroll-arrow">↓</span>
+            <span class="scroll-text">Game Experience</span>
+            <div class="sparkle" id="sparkleSkills"></div>
+        </div>
+    </section>
+
+    <!-- 第三屏：游戏经历 -->
+    <section class="games-section" id="gamesSection">
+        <h2 class="skills-title">Game Journey</h2>
+        <div class="games-grid">
+            <!-- 游戏1：人类一败涂地 -->
+            <div class="game-card">
+                <img src="games/1.jpg" alt="人类一败涂地" onerror="this.style.background='linear-gradient(135deg, #E8E0D6, #D4C9BE)'; this.style.height='160px';">
+                <div class="game-card-body">
+                    <h3 class="game-name">人类一败涂地</h3>
+                    <span class="game-genre">派对游戏 / 物理解谜</span>
+                </div>
+            </div>
+
+            <!-- 游戏2：明日方舟：终末地 -->
+            <div class="game-card">
+                <img src="games/2.jpg" alt="明日方舟：终末地" onerror="this.style.background='linear-gradient(135deg, #D4C9BE, #C4A882)'; this.style.height='160px';">
+                <div class="game-card-body">
+                    <h3 class="game-name">明日方舟：终末地</h3>
+                    <span class="game-genre">二次元 / 策略RPG</span>
+                </div>
+            </div>
+
+            <!-- 游戏3：朋友收集梦想生活 -->
+            <div class="game-card">
+                <img src="games/3.jpg" alt="朋友收集梦想生活" onerror="this.style.background='linear-gradient(135deg, #C4A882, #B89A76)'; this.style.height='160px';">
+                <div class="game-card-body">
+                    <h3 class="game-name">朋友收集梦想生活</h3>
+                    <span class="game-genre">社交模拟 / 休闲养成</span>
+                </div>
+            </div>
+
+            <!-- 游戏4：喷射战士3 -->
+            <div class="game-card">
+                <img src="games/4.jpg" alt="喷射战士3" onerror="this.style.background='linear-gradient(135deg, #B89A76, #A0866A)'; this.style.height='160px';">
+                <div class="game-card-body">
+                    <h3 class="game-name">喷射战士3</h3>
+                    <span class="game-genre">第三人称射击 / 竞技</span>
+                </div>
+            </div>
+
+            <!-- 游戏5：星露谷 -->
+            <div class="game-card">
+                <img src="games/5.jpg" alt="星露谷" onerror="this.style.background='linear-gradient(135deg, #D4C9BE, #E8E0D6)'; this.style.height='160px';">
+                <div class="game-card-body">
+                    <h3 class="game-name">星露谷</h3>
+                    <span class="game-genre">模拟经营</span>
+                </div>
+            </div>
+
+            <!-- 游戏6：逆水寒 -->
+            <div class="game-card">
+                <img src="games/6.jpg" alt="逆水寒" onerror="this.style.background='linear-gradient(135deg, #C4A882, #D4C9BE)'; this.style.height='160px';">
+                <div class="game-card-body">
+                    <h3 class="game-name">逆水寒</h3>
+                    <span class="game-genre">MMORPG / 开放世界</span>
+                </div>
+            </div>
+
+            <!-- 游戏7：偶像梦幻祭2 -->
+            <div class="game-card">
+                <img src="games/7.jpg" alt="偶像梦幻祭2" onerror="this.style.background='linear-gradient(135deg, #E8E0D6, #B89A76)'; this.style.height='160px';">
+                <div class="game-card-body">
+                    <h3 class="game-name">偶像梦幻祭2</h3>
+                    <span class="game-genre">女性向 / 偶像养成</span>
+                </div>
+            </div>
+
+            <!-- 游戏8：破天一剑手游 -->
+            <div class="game-card">
+                <img src="games/8.png" alt="破天一剑手游" onerror="this.style.background='linear-gradient(135deg, #D4C9BE, #B89A76)'; this.style.height='160px';">
+                <div class="game-card-body">
+                    <h3 class="game-name">破天一剑手游</h3>
+                    <span class="game-genre">MMORPG</span>
+                </div>
+            </div>
+
+            <!-- 游戏9：破天一剑小程序 -->
+            <div class="game-card">
+                <img src="games/9.png" alt="破天一剑小程序" onerror="this.style.background='linear-gradient(135deg, #C4A882, #D4C9BE)'; this.style.height='160px';">
+                <div class="game-card-body">
+                    <h3 class="game-name">破天一剑小程序</h3>
+                    <span class="game-genre">MMORPG</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <span>手机：15955347751 | 邮箱：<a href="mailto:zhangxq200302@163.com">zhangxq200302@163.com</a> | 微信：Formula_Aitana</span>
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        function updateNavbar() { navbar.classList.toggle('scrolled', window.scrollY > 50); }
+        updateNavbar();
+        window.addEventListener('scroll', updateNavbar, { passive: true });
+
+        function setupSparkle(id) {
+            const sparkle = document.getElementById(id);
+            if (!sparkle) return;
+            function emit() {
+                sparkle.style.opacity = '0.35';
+                sparkle.style.transform = 'translateY(0) scale(1)';
+                sparkle.style.transition = 'none';
+                sparkle.offsetHeight;
+                sparkle.style.transition = 'opacity 1.6s ease-out, transform 1.6s ease-out';
+                sparkle.style.opacity = '0';
+                sparkle.style.transform = 'translateY(-50px) scale(0.5)';
+            }
+            setInterval(() => setTimeout(emit, Math.random() * 1200), 3500);
+            setTimeout(emit, 1800);
+        }
+        setupSparkle('sparkleAbout');
+        setupSparkle('sparkleSkills');
+    </script>
+</body>
+</html>

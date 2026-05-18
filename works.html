@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品集 · 张雪晴</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #FAFAF8;
+            --bg-card: #FFFFFF;
+            --text-primary: #2B2B2B;
+            --text-secondary: #6B6B6B;
+            --text-weak: #999999;
+            --accent: #C4A882;
+            --accent-light: #D4C9BE;
+            --accent-lighter: #E8E0D6;
+            --border: #EBE8E3;
+            --shadow-default: 0px 2px 8px rgba(0,0,0,0.04);
+            --shadow-hover: 0px 8px 24px rgba(0,0,0,0.08);
+            --font-heading-en: 'Playfair Display', Georgia, serif;
+            --font-body-en: 'Inter', -apple-system, sans-serif;
+            --transition-default: 350ms cubic-bezier(0.25, 0.1, 0.25, 1);
+            --transition-fast: 250ms cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body-en);
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 64px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 40px; z-index: 1000;
+            transition: background-color 350ms ease-out, box-shadow 350ms ease-out;
+            background-color: transparent; box-shadow: none;
+        }
+        .navbar.scrolled {
+            background-color: rgba(250,250,248,0.88) !important;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            box-shadow: 0px 1px 0px rgba(0,0,0,0.04);
+        }
+        .navbar-logo {
+            font-family: var(--font-body-en); font-size: 18px; font-weight: 500;
+            color: var(--text-primary); text-decoration: none; letter-spacing: 0.03em;
+            transition: color var(--transition-fast);
+        }
+        .navbar-logo:hover { color: var(--accent); }
+        .navbar-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+        .navbar-links a {
+            font-family: var(--font-body-en); font-size: 14px; font-weight: 400;
+            color: var(--text-primary); text-decoration: none; position: relative;
+            padding: 4px 0; transition: color var(--transition-fast);
+        }
+        .navbar-links a:hover { color: var(--accent); }
+        .navbar-links a.nav-item::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 0; height: 1.5px; background-color: var(--accent); transition: width var(--transition-fast);
+        }
+        .navbar-links a.nav-item:hover::after { width: 60%; }
+        .navbar-links a.active { color: var(--accent); }
+        .navbar-links a.active::after { width: 60%; }
+        .nav-contact-btn {
+            background-color: var(--accent) !important; color: #FFFFFF !important;
+            padding: 7px 20px !important; border-radius: 20px !important;
+            font-size: 13px !important; font-weight: 500 !important;
+            transition: background-color var(--transition-fast), transform var(--transition-fast) !important;
+            animation: contactBreathe 3.5s ease-in-out infinite;
+        }
+        .nav-contact-btn:hover { background-color: #b89a76 !important; transform: scale(1.03); }
+        .nav-contact-btn::after { display: none !important; }
+        @keyframes contactBreathe {
+            0%,100%{ box-shadow: 0px 0px 0px rgba(196,168,130,0); }
+            50%{ box-shadow: 0px 0px 14px rgba(196,168,130,0.35); }
+        }
+
+        /* 页面头部 */
+        .page-header {
+            padding-top: 120px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .page-title {
+            font-family: var(--font-heading-en);
+            font-size: clamp(36px, 5vw, 48px);
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+        .page-subtitle {
+            font-family: var(--font-body-en);
+            font-size: 15px;
+            color: var(--text-weak);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+        .download-btn {
+            display: inline-block;
+            margin-top: 16px;
+            background-color: var(--accent);
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 24px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        .download-btn:hover {
+            background-color: #b89a76;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 12px rgba(196,168,130,0.3);
+        }
+
+        /* 项目列表 */
+        .works-list {
+            max-width: 700px;
+            margin: 0 auto 80px;
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 纯文字卡片 */
+        .project-card {
+            display: block;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 30px;
+            box-shadow: var(--shadow-default);
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: transform var(--transition-default), box-shadow var(--transition-default), border-color var(--transition-default);
+            position: relative;
+        }
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
+        }
+        .card-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .card-tag {
+            font-size: 11px;
+            color: var(--accent);
+            background-color: rgba(212,201,190,0.3);
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+        }
+        .card-title {
+            font-family: var(--font-heading-en);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .card-arrow {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: var(--text-weak);
+            transition: transform var(--transition-fast), color var(--transition-fast);
+        }
+        .project-card:hover .card-arrow {
+            transform: translateY(-50%) translateX(4px);
+            color: var(--accent);
+        }
+
+        /* 滚动淡入 */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 500ms cubic-bezier(0.22,1,0.36,1), transform 500ms cubic-bezier(0.22,1,0.36,1);
+        }
+        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+        .card-delay-1 { transition-delay: 0ms; }
+        .card-delay-2 { transition-delay: 80ms; }
+        .card-delay-3 { transition-delay: 160ms; }
+        .card-delay-4 { transition-delay: 240ms; }
+        .card-delay-5 { transition-delay: 320ms; }
+        .card-delay-6 { transition-delay: 400ms; }
+        .card-delay-7 { transition-delay: 480ms; }
+
+        /* 页脚 */
+        .footer {
+            width: 100%; padding: 36px 24px;
+            border-top: 1px solid var(--border);
+            text-align: center; background-color: var(--bg-page);
+        }
+        .footer-content {
+            font-size: 13px; color: var(--text-weak); letter-spacing: 0.04em;
+        }
+        .footer-content a {
+            color: var(--text-weak); text-decoration: none;
+            transition: color var(--transition-fast); border-bottom: 1px solid transparent;
+        }
+        .footer-content a:hover { color: var(--accent); border-bottom-color: var(--accent-light); }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 20px; height: 56px; }
+            .navbar-links { gap: 16px; }
+            .navbar-links a { font-size: 12px; }
+            .nav-contact-btn { padding: 5px 14px !important; font-size: 11px !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="navbar-logo">张雪晴的个人网页</a>
+        <ul class="navbar-links">
+            <li><a href="about.html" class="nav-item">简介</a></li>
+            <li><a href="resume.html" class="nav-item">简历</a></li>
+            <li><a href="works.html" class="nav-item active">作品集</a></li>
+            <li><a href="contact.html" class="nav-contact-btn">联系</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-header">
+        <h1 class="page-title">Selected Works</h1>
+        <p class="page-subtitle">Project Showcase</p>
+        <a href="portfolio.pdf" class="download-btn" download>↓ 下载作品集 PDF</a>
+    </div>
+
+      <div class="works-list">
+
+        <!-- 项目1 -->
+        <a href="project-1.html" class="project-card fade-in-up card-delay-1">
+            <div class="card-tags"><span class="card-tag">整合营销</span></div>
+            <h2 class="card-title">破天一剑小程序公测上线</h2>
+            <p class="card-desc">公测整合营销，PV 90W+，话题播放 125W+，UGC 超800条。</p>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- 项目2 -->
+        <a href="project-2.html" class="project-card fade-in-up card-delay-2">
+            <div class="card-tags"><span class="card-tag">整合营销</span></div>
+            <h2 class="card-title">新破天一剑·会战天下端游十八周年庆</h2>
+            <p class="card-desc">玩家纪录片+主题曲，播放量 30W+，互动率2.41%，营造归属感。</p>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- 项目3 -->
+        <a href="project-3.html" class="project-card fade-in-up card-delay-3">
+            <div class="card-tags"><span class="card-tag">社区搭建</span></div>
+            <h2 class="card-title">破天圈社区0-1冷启动</h2>
+            <p class="card-desc">9个月总曝光80W+，用户2k+，增长率居平台品类第3。</p>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- 项目4 -->
+        <a href="project-4.html" class="project-card fade-in-up card-delay-4">
+            <div class="card-tags"><span class="card-tag">事件营销</span></div>
+            <h2 class="card-title">新惊天动地茶话会</h2>
+            <p class="card-desc">线下茶话会+直播，曝光66W+，冲上抖音人气榜第76名。</p>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- 项目5 -->
+        <a href="project-5.html" class="project-card fade-in-up card-delay-5">
+            <div class="card-tags"><span class="card-tag">作品展示</span></div>
+            <h2 class="card-title">文案撰写</h2>
+            <p class="card-desc">品牌Slogan、公众号推文、群公告等精选文案作品。</p>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- 项目6 -->
+        <a href="project-6.html" class="project-card fade-in-up card-delay-6">
+            <div class="card-tags"><span class="card-tag">作品展示</span></div>
+            <h2 class="card-title">视频作品</h2>
+            <p class="card-desc">混剪类、互动类视频、UGC二创等视频制作案例。</p>
+            <span class="card-arrow">→</span>
+        </a>
+
+        <!-- 项目7 -->
+        <a href="project-7.html" class="project-card fade-in-up card-delay-7">
+            <div class="card-tags"><span class="card-tag">作品展示</span></div>
+            <h2 class="card-title">平面设计</h2>
+            <p class="card-desc">视频封面、banner、活动图、衍生周边等视觉设计作品。</p>
+            <span class="card-arrow">→</span>
+        </a>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>手机：15955347751 | 邮箱：<a href="mailto:zhangxq200302@163.com">zhangxq200302@163.com</a> | 微信：Formula_Aitana</span>
+        </div>
+    </footer>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        function updateNavbar() { navbar.classList.toggle('scrolled', window.scrollY > 50); }
+        updateNavbar();
+        window.addEventListener('scroll', updateNavbar, { passive: true });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
